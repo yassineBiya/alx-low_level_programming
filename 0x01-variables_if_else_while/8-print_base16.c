@@ -20,8 +20,8 @@ int main(void)
 		}
 		else
 		{
-			putchar(i - 10 + 'a');/*letter a-f*/	
-		}
+			putchar(i - 10 + 'a');/*letter a-f*/
+			}
 	}
 	putchar('\n');
 	return (0);
