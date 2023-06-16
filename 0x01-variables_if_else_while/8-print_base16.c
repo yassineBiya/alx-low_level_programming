@@ -14,11 +14,13 @@ int main(void)
 
 	for (i = 0; i < 16; i++)
 	{
-		if (i < 10) {
-		putchar(i + '0');   /*digits 0-9*/
+		if (i < 10)
+		{
+		putchar(i + '0');/*digits 0-9*/
 		}
-		else {
-			putchar(i -10 + 'a');	/*letter a-f*/		
+		else
+		{
+			putchar(i - 10 + 'a');/*letter a-f*/		
 		}
 	}
 	putchar('\n');
