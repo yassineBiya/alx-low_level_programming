@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 /**
- * main - To print the alphabets in lowercase except q & e
+ * main - To print the numbers btwn 0 & 9
  * followed by newline.
  *
  *
@@ -10,9 +10,8 @@
  */
 int main(void)
 {
-	int i;
 
-	for (i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		printf("%d", i);
 	}
