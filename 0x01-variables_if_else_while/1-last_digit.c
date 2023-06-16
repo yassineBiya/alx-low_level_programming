@@ -3,7 +3,8 @@
 #include <stdio.h>
 
 /**
- * main - To print the last digit of a random number and if it is greater than 5, equals to 0 or lesser than 6
+ * main - To print the last digit of a random number and if it is greater than 5,
+ * equals to 0 or lesser than 6.
  * 
  *
  * Return: Always 0 (success)
