@@ -2,12 +2,12 @@
 
 /**
  * _isalpha - checks for alphabetic character
- * Return: 1 if c is a letter, 0 otherwise
- * @c: the variable to be checked
+ * Return: 1 if ch is a letter, 0 otherwise
+ * @ch: the variable to be checked
  */
-int _isalpha(int c)
+int _isalpha(int ch)
 {
-	if (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+	if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
 		return (1);
 	else
 		return (0);
