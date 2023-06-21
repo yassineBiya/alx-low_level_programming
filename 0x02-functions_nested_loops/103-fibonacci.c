@@ -1,34 +1,32 @@
+#include <stdio.h>
+
 /**
  * main - to find and prints the sum of the even-valued terms,
  * followed by a new line
  *
  * Return: 0 
  */
-#include <stdio.h>
+int main(void)
+{
+	int i;
+	unsigned long l, m, j, sum;
 
-unsigned long evenFibSum(unsigned long limit) {
-  if (limit < 2) {
-    return 0;
-  }
+	l = 1;
+	m = 2;
+	sum = 0;
 
-  unsigned long ef1 = 0, ef2 = 2, sum = ef1 + ef2;
-  while (ef2 <= limit) {
-    unsigned long ef3 = 4 * ef2 + ef1;
-    if (ef3 > limit) {
-      break;
-    }
+	for (i = 1; i <= 33; ++i)
+	{
+		if (l < 4000000 && (l % 2) == 0)
+		{
+			sum = sum + l;
+		}
+		j = l + m;
+		l = m;
+		m = j;
+	}
 
-    ef1 = ef2;
-    ef2 = ef3;
-    sum += ef2;
-  }
+	printf("%lu\n", sum);
 
-  return sum;
-}
-
-int main() {
-  unsigned long limit = 4000000;
-  unsigned long sum = evenFibSum(limit);
-  printf("The sum of the even-valued Fibonacci terms less than or equal to %lu is %lu.\n", limit, sum);
-  return 0;
+	return (0);
 }
