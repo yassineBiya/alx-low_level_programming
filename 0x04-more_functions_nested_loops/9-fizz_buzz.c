@@ -7,7 +7,7 @@
  * but for multiples of 3 to print Fizz instead of the number
  * and for the multiples of 5 to print Buzz
  * and FizzBuzz for mulitples of 3 & 5
- * Return: 0 (Success)
+ * Return: 0
  */
 int main(void)
 {
