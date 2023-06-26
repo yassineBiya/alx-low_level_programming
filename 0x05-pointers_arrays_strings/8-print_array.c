@@ -5,6 +5,7 @@
  * comma separated,
  * followed by a new line.
  *
+ * @a: name of the array
  * @n: is the number of elements of the array to be printed
  * in order of the array
  * Return: a and n inputs
