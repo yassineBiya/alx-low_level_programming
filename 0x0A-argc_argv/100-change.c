@@ -31,12 +31,12 @@ int main(int argc, char *argv[])
 		return (0);
 	}
 
-	for (j = 0; j < 5 && nbre >= 0; j++)
+	for (i = 0; i < 5 && nbre >= 0; i++)
 	{
-		while (nbre >= coins[j])
+		while (nbre >= coins[i])
 		{
 			change++;
-			nbre -= coins[j];
+			nbre -= coins[i];
 		}
 	}
 
