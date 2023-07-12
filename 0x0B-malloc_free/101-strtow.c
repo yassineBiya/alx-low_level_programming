@@ -39,7 +39,7 @@ char **strtow(char *str)
 {
 	char **grid, *tmp;
 	int j, words, s, e;
-	int  k = 0, leng = 0, a=0;
+	int  k = 0, leng = 0, a = 0;
 
 	while (*(str + leng))
 		leng++;
