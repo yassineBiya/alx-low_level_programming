@@ -35,7 +35,7 @@ char *argstostr(int ac, char **av)
 	}
 	if (arr[k] == '\0')
 	{
-		arr[k++] = '\j';
+		arr[k++] = '\n';
 	}
 	}
 	return (arr);
