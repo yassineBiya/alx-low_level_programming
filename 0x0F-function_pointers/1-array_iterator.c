@@ -6,7 +6,7 @@
  *
  * @array: array of ints.
  * @size: of type size_t, the size of the array.
- * @f: pointer to a function of int.
+ * @action: pointer to a function of int.
  *
  * Return: void.
  **/
