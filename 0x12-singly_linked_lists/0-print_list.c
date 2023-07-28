@@ -6,20 +6,18 @@
  *
  * Return: the number of nodes.
  */
-
 size_t print_list(const list_t *h)
 {
-	size_t node_nbre;
+	size_t node_nbre = 0;
 
-	node_nbre = 0;
-	do {
+	while (h)
+	{
 		if (!h->str)
 			printf("[%d] %s\n", 0, "(nil)");
 		else
 			printf("[%d] %s\n", h->len, h->str);
 		h = h->next;
 		node_nbre++;
-	} while (h != NULL);
-
+	}
 	return (node_nbre);
 }
