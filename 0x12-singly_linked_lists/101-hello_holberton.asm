@@ -1,10 +1,16 @@
-global main
+SECTION .data
+hh:	db "Hello, Holberton", 0	; Null-terminated string to print
+frmt:	db "%s", 10, 0			; The format string
 
-section .text
+SECTION .text 
+extern printf					; Declare the external reference to printf
+global main						; Entry point of the program
+
 main:
-  mov rax, 0x40050A ; address of "Hello, Holberton!\n" string
-  mov rdi, 1 ; stdout
-  mov rsi, 1 ; number of bytes to write
-  syscall ; write string to stdout
-  mov rax, 0 ; return 0
-  ret
+	mov esi, hh
+	mov edi, frmt
+	mov eax, 0
+	call printf
+
+	mov eax, 0
+	ret
