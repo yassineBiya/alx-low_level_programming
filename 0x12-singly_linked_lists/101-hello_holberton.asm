@@ -1,15 +1,10 @@
-SECTION .data
-hh:	db "Hello, Holberton", 0
-frmt:	db "%s", 10, 0
+global main
 
-	SECTION .text
-	extern printf
-	global main
+section .text
 main:
-	mov esi, hh
-	mov edi, frmt
-	mov eax, 0
-	call printf
-
-	mov eax, 0
-	ret
+  mov rax, 0x40050A ; address of "Hello, Holberton!\n" string
+  mov rdi, 1 ; stdout
+  mov rsi, 1 ; number of bytes to write
+  syscall ; write string to stdout
+  mov rax, 0 ; return 0
+  ret
