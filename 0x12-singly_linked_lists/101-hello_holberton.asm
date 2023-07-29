@@ -1,19 +1,20 @@
 section .data
-	hello db 'Hello, Holberton', 0x0A  ; Null-terminated string to print
-	hello_len equ $ - hello           ; Length of the string
+    hello db "Hello, Holberton", 0  ; Null-terminated string to print
 
 section .text
-	global _start
+    extern printf                 ; Declare the external reference to printf
+    global main                   ; Entry point of the program
 
-_start:
-	; --- Write the string to the standard output (file descriptor 1) ---
-	mov rax, 1                      ; syscall number for sys_write (1)
-	mov rdi, 1                      ; file descriptor 1 (stdout)
-	mov rsi, hello                  ; pointer to the string to print
-	mov rdx, hello_len              ; length of the string
-	syscall                         ; invoke syscall
+main:
+    ; --- Prepare the arguments for printf ---
+    mov rdi, hello                ; Set the format string (1st argument) to hello
+    xor rax, rax                  ; Clear rax to indicate that there are no SSE arguments
+    call printf                   ; Call printf with the format string
 
-	; --- Exit the program ---
-	mov rax, 60                     ; syscall number for sys_exit (60)
-	xor rdi, rdi                    ; exit code 0
-	syscall                         ; invoke syscall
+    ; --- Exit the program ---
+    xor rdi, rdi                  ; Set the exit code to 0
+    mov rax, 60                   ; syscall number for sys_exit (60)
+    syscall                       ; Invoke the syscall to exit
+
+section .bss
+    ; No need for a .bss section in this program
