@@ -7,7 +7,7 @@ section .text
 
 main:
 	; --- Prepare the arguments for printf ---
-	mov rdi, hello                ; Set the format string (1st argument) to hello
+	mov rdi, msg                ; Set the format string (1st argument) to hello
 	xor rax, rax                  ; Clear rax to indicate that there are no SSE arguments
 	call printf                   ; Call printf with the format string
 
