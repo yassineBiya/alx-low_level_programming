@@ -1,19 +1,14 @@
-section .data
-hello:	db "Hello, Holberton", 0  ; Null-terminated string to print
-format: db "%s", 10, 0
+SECTION .data
+hh:	db "Hello, Holberton", 0
+frmt:	db "%s", 10, 0
 
-section .text
-	extern printf                 ; Declare the external reference to printf
-	global main                   ; Entry point of the program
-
+	SECTION .text
+	extern printf
+	global main
 main:
-	; --- Prepare the arguments for printf ---
-	mov rdi, hello                  ; Set the format string (1st argument) to hello
-	mov rdi, format
-	xor rax, rax                  ; Clear rax to indicate that there are no SSE arguments
-	call printf                   ; Call printf with the format string
+	mov esi, hh
+	mov edi, frmt
+	mov eax, 0
+	call printf
 
-	; --- Exit the program ---
-	xor rdi, rdi                  ; Set the exit code to 0
-	mov rax, 60                   ; syscall number for sys_exit (60)
-	syscall                       ; Invoke the syscall to exit
+	ret
