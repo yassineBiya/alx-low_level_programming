@@ -1,5 +1,6 @@
 section .data
-msg:	db "Hello, Holberton", 0  ; Null-terminated string to print
+hello:	db "Hello, Holberton", 0  ; Null-terminated string to print
+format: db "%s", 10, 0
 
 section .text
 	extern printf                 ; Declare the external reference to printf
@@ -7,7 +8,8 @@ section .text
 
 main:
 	; --- Prepare the arguments for printf ---
-	mov rdi, msg                ; Set the format string (1st argument) to hello
+	mov rdi, hello                  ; Set the format string (1st argument) to hello
+	mov rdi, format
 	xor rax, rax                  ; Clear rax to indicate that there are no SSE arguments
 	call printf                   ; Call printf with the format string
 
