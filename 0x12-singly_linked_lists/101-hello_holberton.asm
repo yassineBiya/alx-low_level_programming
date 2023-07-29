@@ -1,5 +1,5 @@
 section .data
-	db "Hello, Holberton", 0  ; Null-terminated string to print
+msg:	db "Hello, Holberton", 0  ; Null-terminated string to print
 
 section .text
 	extern printf                 ; Declare the external reference to printf
