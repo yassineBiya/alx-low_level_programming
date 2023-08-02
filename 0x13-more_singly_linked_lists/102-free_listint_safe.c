@@ -12,16 +12,14 @@ size_t free_listint_safe(listint_t **h)
 	listint_t *current, *tmp;
 
 	current = *h;
+	*h = NULL;
 
-	while (current)
+	while (current != NULL)
 	{
 		node_nbr++;
 		tmp = current->next;
 		free(current);
 		current = tmp;
-
-		if (current == *h)
-			*h = NULL;
 	}
 
 	return (node_nbr);
