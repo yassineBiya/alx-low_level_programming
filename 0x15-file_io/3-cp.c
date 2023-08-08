@@ -68,8 +68,7 @@ int main(int argc, char *argv[])
 	r_read = read(s_start, f_buf, 1024);
 	e_end = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
-	while (r_read > 0)
-	{
+	do {
 		if (s_start == -1 || r_read == -1)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't read s_start file %s\n",
@@ -90,7 +89,7 @@ int main(int argc, char *argv[])
 		r_read = read(s_start, f_buf, 1024);
 		e_end = open(argv[2], O_WRONLY | O_APPEND);
 
-	}
+	} while (r_read > 0);
 
 	free(f_buf);
 	f_close(s_start);
