@@ -68,11 +68,12 @@ int main(int argc, char *argv[])
 	r_read = read(s_start, f_buf, 1024);
 	e_end = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
-	do {
+	while (r_read > 0)
+	{
 		if (s_start == -1 || r_read == -1)
 		{
-			dprintf(STDERR_FILENO, "Error: Can't read s_start file %s\n",
-				argv[1]);
+			dprintf(STDERR_FILENO,
+				"Error: Can't read s_start file %s\n", argv[1]);
 			free(f_buf);
 			exit(98);
 		}
@@ -80,8 +81,8 @@ int main(int argc, char *argv[])
 		w_write = write(e_end, f_buf, r_read);
 		if (e_end == -1 || w_write == -1)
 		{
-			dprintf(STDERR_FILENO, "Error: Can't write e_end %s\n",
-				argv[2]);
+			dprintf(STDERR_FILENO,
+				"Error: Can't write e_end %s\n", argv[2]);
 			free(f_buf);
 			exit(99);
 		}
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
 		r_read = read(s_start, f_buf, 1024);
 		e_end = open(argv[2], O_WRONLY | O_APPEND);
 
-	} while (r_read > 0);
+	}
 
 	free(f_buf);
 	f_close(s_start);
