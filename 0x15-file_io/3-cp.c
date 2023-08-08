@@ -1,61 +1,63 @@
 #include "main.h"
 
-char *f_buf_create(char *file);
-void f_close(int f_descript);
+char *create_buffer(char *file);
+void close_file(int fd);
+
 /**
- * f_buf_create - allocates memory for a character buffer.
+ * create_buffer - Allocates 1024 bytes for a buffer.
+ * @file: The name of the file buffer is storing chars for.
  *
- * @file: the name of the file for which the buffer is being created.
- *
- * Return: pointer to the dynamically allocated character buffer.
+ * Return: A pointer to the newly-allocated buffer.
  */
-char *f_buf_create(char *file)
+char *create_buffer(char *file)
 {
-	char *f_buf;
+	char *buffer;
 
-	f_buf = malloc(sizeof(char) * 1024);
+	buffer = malloc(sizeof(char) * 1024);
 
-	if (f_buf == NULL)
+	if (buffer == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n",
-			file);
+		dprintf(STDERR_FILENO,
+			"Error: Can't write to %s\n", file);
 		exit(99);
 	}
 
-	return (f_buf);
+	return (buffer);
 }
+
 /**
- * f_close - Closes file descriptors.
- *
- * @f_descript: The file descriptor to be closed.
- *
- * Return: void.
+ * close_file - Closes file descriptors.
+ * @fd: The file descriptor to be closed.
  */
-void f_close(int f_descript)
+void close_file(int fd)
 {
-	int c_close;
+	int c;
 
-	c_close = close(f_descript);
+	c = close(fd);
 
-	if (c_close == -1)
+	if (c == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close f_descript %d\n",
-			f_descript);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
 		exit(100);
 	}
 }
+
 /**
  * main - Copies the contents of a file to another file.
- *
- * @argc: nbr of args.
- * @argv: array of pointers to args.
+ * @argc: The number of arguments supplied to the program.
+ * @argv: An array of pointers to the arguments.
  *
  * Return: 0 on success.
+ *
+ * Description: If the argument count is incorrect - exit code 97.
+ * If file_from does not exist or cannot be read - exit code 98.
+ * If file_to cannot be created or written to - exit code 99.
+ * If file_to or file_from cannot be closed - exit code 100.
  */
 int main(int argc, char *argv[])
 {
-	int s_start, e_end, r_read, w_write;
-	char *f_buf;
+	int from, to, r, w;
+	char *buffer;
 
 	if (argc != 3)
 	{
@@ -63,38 +65,37 @@ int main(int argc, char *argv[])
 		exit(97);
 	}
 
-	f_buf = f_buf_create(argv[2]);
-	s_start = open(argv[1], O_RDONLY);
-	r_read = read(s_start, f_buf, 1024);
-	e_end = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	buffer = create_buffer(argv[2]);
+	from = open(argv[1], O_RDONLY);
+	r = read(from, buffer, 1024);
+	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
-	while (r_read > 0)
-	{
-		if (s_start == -1 || r_read == -1)
+	do {
+		if (from == -1 || r == -1)
 		{
 			dprintf(STDERR_FILENO,
-				"Error: Can't read s_start file %s\n", argv[1]);
-			free(f_buf);
+				"Error: Can't read from file %s\n", argv[1]);
+			free(buffer);
 			exit(98);
 		}
 
-		w_write = write(e_end, f_buf, r_read);
-		if (e_end == -1 || w_write == -1)
+		w = write(to, buffer, r);
+		if (to == -1 || w == -1)
 		{
 			dprintf(STDERR_FILENO,
-				"Error: Can't write e_end %s\n", argv[2]);
-			free(f_buf);
+				"Error: Can't write to %s\n", argv[2]);
+			free(buffer);
 			exit(99);
 		}
 
-		r_read = read(s_start, f_buf, 1024);
-		e_end = open(argv[2], O_WRONLY | O_APPEND);
+		r = read(from, buffer, 1024);
+		to = open(argv[2], O_WRONLY | O_APPEND);
 
-	}
+	} while (r > 0);
 
-	free(f_buf);
-	f_close(s_start);
-	f_close(e_end);
+	free(buffer);
+	close_file(from);
+	close_file(to);
 
 	return (0);
 }
