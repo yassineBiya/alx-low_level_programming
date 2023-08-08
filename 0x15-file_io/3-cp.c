@@ -8,7 +8,7 @@ void f_close(int fd);
  *
  * @file: the name of the file for which the f_buf is being created.
  *
- * Return: pointer _dest the dynamically allocated character f_buf.
+ * Return: pointer to the dynamically allocated character f_buf.
  */
 char *f_buf_create(char *file)
 {
@@ -19,7 +19,7 @@ char *f_buf_create(char *file)
 	if (f_buf == NULL)
 	{
 		dprintf(STDERR_FILENO,
-			"Error: Can't write _dest %s\n", file);
+			"Error: Can't write to %s\n", file);
 		exit(99);
 	}
 
@@ -28,7 +28,7 @@ char *f_buf_create(char *file)
 /**
  * f_close - Closes file descriptors.
  *
- * @fd: The file descriptor _dest be closed.
+ * @fd: The file descriptor to be closed.
  *
  * Return: void.
  */
@@ -45,16 +45,16 @@ void f_close(int fd)
 	}
 }
 /**
- * main - Copies the contents of a file _dest another file.
+ * main - Copies the contents of a file to another file.
  *
  * @argc: nbr of args.
- * @argv: array of pointers _dest args.
+ * @argv: array of pointers to args.
  *
  * Return: 0 on success.
  */
 int main(int argc, char *argv[])
 {
-	int _source, _dest, r_read, w_write;
+	int from, to, r_read, w_write;
 	char *f_buf;
 
 	if (argc != 3)
@@ -64,36 +64,36 @@ int main(int argc, char *argv[])
 	}
 
 	f_buf = f_buf_create(argv[2]);
-	_source = open(argv[1], O_RDONLY);
-	r_read = read(_source, f_buf, 1024);
-	_dest = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	from = open(argv[1], O_RDONLY);
+	r_read = read(from, f_buf, 1024);
+	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
 	do {
-		if (_source == -1 || r_read == -1)
+		if (from == -1 || r_read == -1)
 		{
 			dprintf(STDERR_FILENO,
-				"Error: Can't read _source file %s\n", argv[1]);
+				"Error: Can't read from file %s\n", argv[1]);
 			free(f_buf);
 			exit(98);
 		}
 
-		w_write = write(_dest, f_buf, r_read);
-		if (_dest == -1 || w_write == -1)
+		w_write = write(to, f_buf, r_read);
+		if (to == -1 || w_write == -1)
 		{
 			dprintf(STDERR_FILENO,
-				"Error: Can't write _dest %s\n", argv[2]);
+				"Error: Can't write to %s\n", argv[2]);
 			free(f_buf);
 			exit(99);
 		}
 
-		r_read = read(_source, f_buf, 1024);
-		_dest = open(argv[2], O_WRONLY | O_APPEND);
+		r_read = read(from, f_buf, 1024);
+		to = open(argv[2], O_WRONLY | O_APPEND);
 
 	} while (r_read > 0);
 
 	free(f_buf);
-	f_close(_source);
-	f_close(_dest);
+	f_close(from);
+	f_close(to);
 
 	return (0);
 }
