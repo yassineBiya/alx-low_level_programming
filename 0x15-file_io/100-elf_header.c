@@ -10,43 +10,45 @@
  * Description: If the file is not an ELF File or
  *              the function fails - exit code 98.
  */
-int main(int argc, char *argv[])
+int main(int __attribute__((__unused__)) argc, char *argv[])
 {
-	FILE *fp;
-	Elf32_Ehdr ehdr;
+	Elf64_Ehdr *header;
+	int o, r;
 
-	/* Check for the correct number of arguments.*/
-	if (argc != 2)
+	o = open(argv[1], O_RDONLY);
+	if (o == -1)
 	{
-		fprintf(stderr, "Usage: %s <elf_file>\n", argv[0]);
-		return (98);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		exit(98);
+	}
+	header = malloc(sizeof(Elf64_Ehdr));
+	if (header == NULL)
+	{
+		close_elf(o);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		exit(98);
+	}
+	r = read(o, header, sizeof(Elf64_Ehdr));
+	if (r == -1)
+	{
+		free(header);
+		close_elf(o);
+		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
+		exit(98);
 	}
 
-	/*Open the ELF file.*/
-	fp = fopen(argv[1], "rb");
+	check_elf(header->e_ident);
+	printf("ELF Header:\n");
+	print_magic(header->e_ident);
+	print_class(header->e_ident);
+	print_data(header->e_ident);
+	print_version(header->e_ident);
+	print_osabi(header->e_ident);
+	print_abi(header->e_ident);
+	print_type(header->e_type, header->e_ident);
+	print_entry(header->e_entry, header->e_ident);
 
-	if (fp == NULL)
-	{
-		fprintf(stderr, "Could not open file: %s\n", argv[1]);
-		return (98);
-	}
-
-	/* Read the ELF header.*/
-	fread(&ehdr, sizeof(ehdr), 1, fp);
-
-	/* Print the ELF header information.*/
-	printf("Magic: %#x\n", ehdr.e_ident[EI_MAG0]);
-	printf("Class: %#x\n", ehdr.e_ident[EI_CLASS]);
-	printf("Data: %#x\n", ehdr.e_ident[EI_DATA]);
-	printf("Version: %#x\n", ehdr.e_ident[EI_VERSION]);
-	printf("OS/ABI: %#x\n", ehdr.e_ident[EI_OSABI]);
-	printf("ABI Version: %#x\n", ehdr.e_ident[EI_ABIVERSION]);
-	printf("Type: %#x\n", ehdr.e_type);
-	printf("Machine: %#x\n", ehdr.e_machine);
-	printf("Entry point: %#x\n", ehdr.e_entry);
-
-	/* Close the file.*/
-	fclose(fp);
-
+	free(header);
+	close_elf(o);
 	return (0);
 }
