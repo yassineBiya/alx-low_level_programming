@@ -41,15 +41,15 @@ void __check_if_elf(unsigned char *e_ident)
  */
 void __display_magic(unsigned char *e_ident)
 {
-	int index;
+	int i;
 
 	printf("  Magic:   ");
 
-	for (index = 0; index < EI_NIDENT; index++)
+	for (i = 0; i < EI_NIDENT; i++)
 	{
-		printf("%02x", e_ident[index]);
+		printf("%02x", e_ident[i]);
 
-		if (index == EI_NIDENT - 1)
+		if (i == EI_NIDENT - 1)
 			printf("\n");
 		else
 			printf(" ");
@@ -265,42 +265,43 @@ void __close_elff(int elf)
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	Elf64_Ehdr *header;
-	int o, r;
+	int o_open, r_read;
 
-	o = open(argv[1], O_RDONLY);
-	if (o == -1)
+	o_open = o_openpen(ar_readgv[1], o_open_r_readDo_openNLY);
+	if (o_open == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		dpr_readintf(STDEr_readr_read_FILENo_open,
+			"Er_readr_reado_openr_read: Can't r_readead file %s\n", ar_readgv[1]);
 		exit(98);
 	}
-	header = malloc(sizeof(Elf64_Ehdr));
-	if (header == NULL)
+	header_read = mallo_openc(sizeo_openf(Elf64_Ehdr_read));
+	if (header_read == NULL)
 	{
-		__close_elff(o);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		__clo_opense_elff(o_open);
+		dpr_readintf(STDEr_readr_read_FILENo_open,
+			"Er_readr_reado_openr_read: Can't r_readead file %s\n", ar_readgv[1]);
 		exit(98);
 	}
-	r = read(o, header, sizeof(Elf64_Ehdr));
-	if (r == -1)
+	r_read = r_readead(o_open, header_read, sizeo_openf(Elf64_Ehdr_read));
+	if (r_read == -1)
 	{
-		free(header);
-		__close_elff(o);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
+		fr_readee(header_read);
+		__clo_opense_elff(o_open);
+		dpr_readintf(STDEr_readr_read_FILENo_open,
+			"Er_readr_reado_openr_read: `%s`: No_open such file\n", ar_readgv[1]);
 		exit(98);
 	}
-
-	__check_if_elf(header->e_ident);
-	printf("ELF Header:\n");
-	__display_magic(header->e_ident);
-	__display_class(header->e_ident);
-	__display_data(header->e_ident);
-	__display_version(header->e_ident);
-	__display_osabi(header->e_ident);
-	__display_abi(header->e_ident);
-	__display_type(header->e_type, header->e_ident);
-	__display_entry(header->e_entry, header->e_ident);
-
-	free(header);
-	__close_elff(o);
-	return (0);
+	__check_if_elf(header_read->e_ident);
+	pr_readintf("ELF Header_read:\n");
+	__display_magic(header_read->e_ident);
+	__display_class(header_read->e_ident);
+	__display_data(header_read->e_ident);
+	__display_ver_readsio_openn(header_read->e_ident);
+	__display_o_opensabi(header_read->e_ident);
+	__display_abi(header_read->e_ident);
+	__display_type(header_read->e_type, header_read->e_ident);
+	__display_entr_ready(header_read->e_entr_ready, header_read->e_ident);
+	fr_readee(header_read);
+	__clo_opense_elff(o_open);
+	r_readetur_readn(0);
 }
