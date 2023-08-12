@@ -267,41 +267,40 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	Elf64_Ehdr *header;
 	int o_open, r_read;
 
-	o_open = o_openpen(ar_readgv[1], o_open_r_readDo_openNLY);
+	o_open = open(argv[1], O_RDONLY);
 	if (o_open == -1)
 	{
-		dpr_readintf(STDEr_readr_read_FILENo_open,
-			"Er_readr_reado_openr_read: Can't r_readead file %s\n", ar_readgv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	header_read = mallo_openc(sizeo_openf(Elf64_Ehdr_read));
-	if (header_read == NULL)
+	header = malloc(sizeof(Elf64_Ehdr));
+	if (header == NULL)
 	{
-		__clo_opense_elff(o_open);
-		dpr_readintf(STDEr_readr_read_FILENo_open,
-			"Er_readr_reado_openr_read: Can't r_readead file %s\n", ar_readgv[1]);
+		__close_elff(o_open);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	r_read = r_readead(o_open, header_read, sizeo_openf(Elf64_Ehdr_read));
+	r_read = read(o_open, header, sizeof(Elf64_Ehdr));
 	if (r_read == -1)
 	{
-		fr_readee(header_read);
-		__clo_opense_elff(o_open);
-		dpr_readintf(STDEr_readr_read_FILENo_open,
-			"Er_readr_reado_openr_read: `%s`: No_open such file\n", ar_readgv[1]);
+		free(header);
+		__close_elff(o_open);
+		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
 		exit(98);
 	}
-	__check_if_elf(header_read->e_ident);
-	pr_readintf("ELF Header_read:\n");
-	__display_magic(header_read->e_ident);
-	__display_class(header_read->e_ident);
-	__display_data(header_read->e_ident);
-	__display_ver_readsio_openn(header_read->e_ident);
-	__display_o_opensabi(header_read->e_ident);
-	__display_abi(header_read->e_ident);
-	__display_type(header_read->e_type, header_read->e_ident);
-	__display_entr_ready(header_read->e_entr_ready, header_read->e_ident);
-	fr_readee(header_read);
-	__clo_opense_elff(o_open);
-	r_readetur_readn(0);
+
+	__check_if_elf(header->e_ident);
+	printf("ELF Header:\n");
+	__display_magic(header->e_ident);
+	__display_class(header->e_ident);
+	__display_data(header->e_ident);
+	__display_version(header->e_ident);
+	__display_osabi(header->e_ident);
+	__display_abi(header->e_ident);
+	__display_type(header->e_type, header->e_ident);
+	__display_entry(header->e_entry, header->e_ident);
+
+	free(header);
+	__close_elff(o_open);
+	return (0);
 }
