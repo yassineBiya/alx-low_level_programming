@@ -12,30 +12,38 @@
  */
 int main(int argc, char *argv[])
 {
-	/* Open the ELF file.*/
-	FILE *fp = fopen(argv[1], "rb");
+	FILE *fp;
+	Elf32_Ehdr ehdr;
+
+	/* Check for the correct number of arguments.*/
+	if (argc != 2)
+	{
+		fprintf(stderr, "Usage: %s <elf_file>\n", argv[0]);
+		return (98);
+	}
+
+	/*Open the ELF file.*/
+	fp = fopen(argv[1], "rb");
 
 	if (fp == NULL)
 	{
-	fprintf(stderr, "Could not open file: %s\n", argv[1]);
-	return (1);
+		fprintf(stderr, "Could not open file: %s\n", argv[1]);
+		return (98);
 	}
 
 	/* Read the ELF header.*/
-	Elf32_Ehdr ehdr;
-
 	fread(&ehdr, sizeof(ehdr), 1, fp);
 
 	/* Print the ELF header information.*/
-	printf("Magic: %x\n", ehdr.e_ident[EI_MAG0]);
-	printf("Class: %x\n", ehdr.e_ident[EI_CLASS]);
-	printf("Data: %x\n", ehdr.e_ident[EI_DATA]);
-	printf("Version: %x\n", ehdr.e_ident[EI_VERSION]);
-	printf("OS/ABI: %x\n", ehdr.e_ident[EI_OSABI]);
-	printf("ABI Version: %x\n", ehdr.e_ident[EI_ABIVERSION]);
-	printf("Type: %x\n", ehdr.e_type);
-	printf("Machine: %x\n", ehdr.e_machine);
-	printf("Entry point: %x\n", ehdr.e_entry);
+	printf("Magic: %#x\n", ehdr.e_ident[EI_MAG0]);
+	printf("Class: %#x\n", ehdr.e_ident[EI_CLASS]);
+	printf("Data: %#x\n", ehdr.e_ident[EI_DATA]);
+	printf("Version: %#x\n", ehdr.e_ident[EI_VERSION]);
+	printf("OS/ABI: %#x\n", ehdr.e_ident[EI_OSABI]);
+	printf("ABI Version: %#x\n", ehdr.e_ident[EI_ABIVERSION]);
+	printf("Type: %#x\n", ehdr.e_type);
+	printf("Machine: %#x\n", ehdr.e_machine);
+	printf("Entry point: %#x\n", ehdr.e_entry);
 
 	/* Close the file.*/
 	fclose(fp);
